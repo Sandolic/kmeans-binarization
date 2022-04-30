@@ -1,7 +1,6 @@
 from PIL import Image
 import numpy as np
 from numpy.linalg import norm
-import otsu
 
 
 # Kmeans class
@@ -180,8 +179,15 @@ def binarization(file_path: str):
     # --- Extracting binarized image ---
     km.initialize_centroids(global_centroids)
     km.compute_labels(data, km.centroids)
-    kmeans_matrix = km.centroids[km.labels]  # Get pixels with their binary colour
-    kmeans_matrix = np.clip(kmeans_matrix.astype("uint8"), 0, 255)
-    kmeans_matrix = kmeans_matrix.reshape(image_matrix.shape[0], image_matrix.shape[1], image_matrix.shape[2])
-    binary_image_matrix = otsu.apply_otsu_threshold(np.array(Image.fromarray(kmeans_matrix).convert("L")))
-    Image.fromarray(binary_image_matrix).save(file_path + "_binary.png")
+    binary_data = km.centroids[km.labels]  # Get pixels with their binary colour
+    km.initialize_centroids(np.array([[0, 0, 0], [255, 255, 255]]))
+    km.compute_labels(binary_data, km.centroids)
+    bnw_data = km.centroids[km.labels]
+    bnw_data = np.clip(bnw_data.astype("uint8"), 0, 255)
+    bnw_data = bnw_data.reshape(image_matrix.shape[0], image_matrix.shape[1], image_matrix.shape[2])
+    bnw_image_matrix = np.array(Image.fromarray(bnw_data).convert("L"))
+    Image.fromarray(bnw_image_matrix).save(file_path[:-4] + "_binary.png")
+
+
+if __name__ == '__main__':
+    binarization("2hu.png")
