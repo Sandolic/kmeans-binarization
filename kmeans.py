@@ -28,11 +28,12 @@ class Kmeans:
 
         self.centroids = centroids
 
-    def compute_centroids(self, labels: np.array, data: np.array):
+    def compute_centroids(self, labels: np.array, data: np.array) -> np.array:
         """
         Compute centroids from data and labels
         :param np.array labels: pixels' memberships to different centroids
         :param np.array data: pixels and their RGB values
+        :return np.array
         """
 
         centroids = np.zeros((self.n_clusters, data.shape[1]))
@@ -41,11 +42,12 @@ class Kmeans:
                 centroids[k, :] = np.mean(data[labels == k, :], axis=0)  # Pixels' colours mean belonging to k-centroid
         return centroids
 
-    def compute_distance(self, data: np.array, centroids: np.array):
+    def compute_distance(self, data: np.array, centroids: np.array) -> np.array:
         """
         Compute distance between data's pixels and each centroids
         :param np.array data: pixels and their RGB values
         :param np.array centroids: centroids
+        :return np.array
         """
 
         distance = np.zeros((data.shape[0], self.n_clusters))
