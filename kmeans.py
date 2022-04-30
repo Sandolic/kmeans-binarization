@@ -79,7 +79,7 @@ class Kmeans:
 
 
 # Static functions
-def compute_local_counter(labels):
+def compute_local_counter(labels: np.array) -> np.array:
     """
     Compute local counter
     :param np.array labels: pixels' memberships to different centroids
@@ -93,7 +93,7 @@ def compute_local_counter(labels):
     return local_counter
 
 
-def compute_local_accumulator(labels, data):
+def compute_local_accumulator(labels: np.array, data: np.array) -> np.array:
     """
     Compute local accumulator
     :param np.array labels: pixels' memberships to different centroids
@@ -108,7 +108,7 @@ def compute_local_accumulator(labels, data):
     return local_accumulator
 
 
-def compute_global_centroids(counters, accumulators):
+def compute_global_centroids(counters: np.array, accumulators: np.array) -> np.array:
     """
     Compute global centroids
     :param np.array counters: computed global counters
@@ -122,7 +122,7 @@ def compute_global_centroids(counters, accumulators):
     return global_centroids
 
 
-def binarization(file_path):
+def binarization(file_path: str):
     """
     Binarize image from given file path
     :param string file_path: given file path
