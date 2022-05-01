@@ -130,19 +130,19 @@ def binarization(file_path: str):
     """
 
     '''
-    Instead of finding centroids in the image itself - which would bias the results because
-    of the image's features - we consider a 3-dimensional space where each axes are the
-    Red, Green, Blue, of each pixel. Thus, the process is only dependant from the image's colours.
+    Instead of finding centroids in the image itself - which could bias results depending on
+    the image itself - we consider a 3-dimensional space where each axes are the Red, Green, Blue
+    colour values of each pixel. Thus, the process is only dependant from the image's colours.
     
     Furthermore, to be sure not to have biased results based on the global colour features,
-    we will divide the image into chunks, and process the K-means method - which uses "centroids"
-    that are explained below - for each of them. Then, we combine the local results into 
-    a global one using "counters" and "accumulators".
+    we will divide the image into chunks, and process the K-means method - which uses "centroids",
+    explained below - for each of them. Then, we combine the local results into  a global one using
+    "counters" and "accumulators".
     
     
     Centroid : Virtual point from which data can belong to. With more than one centroid, data
     is divided into "clusters", which can help processing it.
-      - In our case : we want to binarize an image, to we will use two centroids (either local or global)
+      - In our case : we want to binarize an image, so we will use two centroids (either local or global)
       to regroup pixels into.
     
     Counter : number of pixels that belong to each centroids.
@@ -179,10 +179,10 @@ def binarization(file_path: str):
     # --- Extracting binarized image ---
     km.initialize_centroids(global_centroids)
     km.compute_labels(data, km.centroids)
-    binary_data = km.centroids[km.labels]  # Get pixels with their binary colour
+    binary_data = km.centroids[km.labels]  # Getting back the binarized pixels
     km.initialize_centroids(np.array([[0, 0, 0], [255, 255, 255]]))
     km.compute_labels(binary_data, km.centroids)
-    bnw_data = km.centroids[km.labels]
+    bnw_data = km.centroids[km.labels]  # Getting back the black and white pixels
     bnw_data = np.clip(bnw_data.astype("uint8"), 0, 255)
     bnw_data = bnw_data.reshape(image_matrix.shape[0], image_matrix.shape[1], image_matrix.shape[2])
     bnw_image_matrix = np.array(Image.fromarray(bnw_data).convert("L"))
@@ -190,4 +190,4 @@ def binarization(file_path: str):
 
 
 if __name__ == '__main__':
-    binarization("2hu.png")
+    binarization("panneau-publicitaire-exterieur-2-720x500.jpg")
